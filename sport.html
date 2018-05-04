@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	
+	<style>
+		
+	.container{
+		width: 500px;
+		height: 500px;
+		border: 3px solid  #ddd;
+		margin: 0 auto;
+		position: relative;
+	}
+	.ball{
+		width: 20px;
+		height: 20px;
+		background: #f99;
+		position: absolute;
+		left:  100px;
+		top: 0px;
+		border-radius: 50%;
+	}
+
+	</style>
+
+</head>
+<body>
+	<div class="container">
+		<div class="ball"></div>
+	</div>
+
+	<script>
+		var nX = 0; //x轴的位置;
+		var nY = 0; //y周的位置;
+
+		var speedY = 1; //下落的速度;
+		var speedX = 5; //横向位移的速度;
+		var timer = null; //定时器开关;
+		var g = 0.3;
+
+		var oBall = document.querySelector(".ball")//运动的元素;
+
+		setInterval(function(){
+			//1.给速度添加重力及速度;
+			speedY = speedY + g;
+			//2.计算元素位置参数;
+			nY = nY + speedY;
+			nX = nX + speedX;
+			// 目标点 和 小球的距离 如果小于了 速度， 那么就算到地方了;
+			//3.让元素发生位移;
+			// console.log(nY)
+			oBall.style.top = nY + "px";
+			oBall.style.left = nX + "px";
+
+			//4.检查位移边界 => 防止出去;
+			if(480 - oBall.offsetTop <= Math.abs(speedY)){
+				oBall.style.top = "480px";
+			}
+
+			// 5.边界碰撞，反弹判断;
+			//y轴的边界;
+			if(nY + oBall.offsetHeight >= 500){
+				speedY = -speedY;
+				// 因为边界值发生改变 ，所以提前进行一次位置改变运算结果，停留bug;
+				nY = nY + speedY;
+			}
+			//x轴的边界;
+			if(nX + oBall.offsetHeight >= 500){
+				speedX = -speedX;
+			}
+			if(nX <= 0){
+				speedX = -speedX;
+			}
+
+			if(oBall.offsetTop  > 480){
+				console.log(oBall.offsetTop)
+			}
+
+		},50)
+
+
+	</script>
+</body>
+</html>
